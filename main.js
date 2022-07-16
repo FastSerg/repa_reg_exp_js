@@ -150,10 +150,22 @@ console.log(checkDomainUrl('www.example.domain-hyphen.com')); // false
  */
 
 const createLinksFromDomains = (str) => {
-  return str.match()
+  let reg = new RegExp(/(https:|http:)\/\/([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\.[a-zA-Z]{2,5}/gi);
+
+  str.match(reg).forEach(el => {
+   str = str.replace(el, `<a href="${el}" target="_blank">${el.replace(/^(http:|https:)\/\//gi, '')}</a>`)
+  });
+  
+  return str;
 }
 
-/* <a href="http://site.ua">site.ua</a> text1 <a href="https://site.com">site.com</a> text2 <a href="https://site.com.ua">site.com.ua</a> text3 <a href="https://subdomain.my-site.com.ua">subdomain.my-site.com.ua</a> text4
+
+
+// {/* <a href="http://site.ua">site.ua</a> text1 <a href="https://site.com">site.com</a> text2 <a href="https://site.com.
+// ua">site.com.ua</a> text3 <a href="https:subdomain.my-site.com.ua">subdomain.my-site.com.ua</a> text4  */}
 console.log(createLinksFromDomains('http://site.ua text1 https://site.com text2 https://site.com.ua text3 https://subdomain.my-site.com.ua text4'));
-site.ua text1 <a href="https://site.com">site.com</a> text2 <a href="https://site.com.ua">site.com.ua</a> text3 subdomain.my-site.com.ua text4
-console.log(createLinksFromDomains('site.ua text1 https://site.com text2 https://site.com.ua text3 subdomain.my-site.com.ua text4')); */
+// site.ua text1 <a href="https://site.com">site.com</a> text2 <a href="https://site.com.ua">site.com.ua</a> text3 subdomain.my-site.com.ua text4
+console.log(createLinksFromDomains('site.ua text1 https://site.com text2 https://site.com.ua text3 subdomain.my-site.com.ua text4')); 
+
+
+
